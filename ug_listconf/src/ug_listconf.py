@@ -2994,9 +2994,18 @@ def main():
     }
     print("\nЭкспорт конфигурации UTM в файл.\n")
     try:
-        server_ip = input("Введите IP-адрес UTM: ")
-        login = input("Введите логин: ")
-        password = stdiomask.getpass("Введите пароль: ")
+        with open('embeddedsettings.txt') as f:
+            lines = f.readlines()
+
+        if (len(lines) < 3):
+            raise Exception("Invalid file")
+
+        #Введите IP-адрес UTM:
+        server_ip = lines[0].strip()
+        #Введите логин:
+        login = lines[1].strip()
+        #Введите пароль:
+        password = lines[2].strip()
 
         utm = UTM(server_ip, login, password)
         file_name = f"config_{server_ip.translate(character_map)}.txt"
